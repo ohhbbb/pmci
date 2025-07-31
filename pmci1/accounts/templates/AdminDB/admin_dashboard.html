@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #075c28;
+      color: white;
+      padding: 15px 30px;
+    }
+
+    .topbar-left {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .topbar-right .logout-link {
+      text-decoration: none;
+      background-color: #075c28;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+
+    .topbar-right .logout-link:hover {
+      background-color: #054e21;
+    }
+
+    .dashboard-container {
+      display: flex;
+      min-height: calc(100vh - 60px);
+    }
+
+    .sidebar {
+      width: 200px;
+      background-color: #054e21;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 25px 0;
+      height: 100%;
+      min-height: 93vh;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #3e5d7c;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 30px;
+    }
+
+    .main-content h1 {
+      margin-bottom: 20px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+      font-size: 18px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-left">PMCI Admin Dashboard</div>
+    <div class="topbar-right">
+      <form action="{% url 'logout' %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="logout-link">Logout</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sidebar + Main -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="{% url 'user_management' %}">Account Management</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <h1>Welcome to the Dashboard</h1>
+    </div>
+  </div>
+</body>
+</html>
