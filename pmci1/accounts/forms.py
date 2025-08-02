@@ -12,3 +12,17 @@ class CustomLoginForm(AuthenticationForm):
         strip=False,
         widget=forms.PasswordInput(attrs={'placeholder': 'Password'})
     )
+
+class AddUserform(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'role']
+        widgets = {
+            'username': forms.TextInput(attrs={'placeholder': 'Username'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
+            'role': forms.Select(attrs={'placeholder': 'Role'}),
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['role'].empty_label = "Select Role"

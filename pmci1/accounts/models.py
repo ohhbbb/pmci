@@ -11,3 +11,15 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return f"{self.username} ({self.role})"
+    
+class AddUser(models.Model):
+    username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True)
+    role = models.CharField(max_length=20, choices=CustomUser.ROLE_CHOICES)
+
+    def __str__(self):
+        return f"{self.username} ({self.role})"
+
+    class Meta:
+        verbose_name = 'Add User'
+        verbose_name_plural = 'Add Users'

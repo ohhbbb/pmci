@@ -113,38 +113,17 @@
   <div class="dashboard-container">
     <!-- Sidebar -->
     <div class="sidebar">
-      <a href="{% url 'user_management' %}">Account Management</a>
+      <a href="{% url 'add_user' %}">Account Management</a>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-        <h1>User Management</h1>
-        <button><a href="{% url 'add_user' %}">Add</a></button>
-        <div>
-            <div>
-                <h2>Users</h2> 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in users %}
-                        <tr>
-                            <td>{{ users.username }}</td>
-                            <td>{{ users.email }}</td>
-                            <td>{{ users.role }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-
-            </div>
-            <P>Accounts {{ users.user }}</P>
-            <p></p>
-        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Add User</button>
+            <a href="{% url 'user_management' %}" class="btn btn-secondary">Back to User Management</a>
+        </form>
     </div>
   </div>
 
