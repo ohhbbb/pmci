@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -34,21 +34,60 @@ def registrar_dashboard(request):
 @login_required
 def user_management(request):
     users = CustomUser.objects.all()
-    return render(request, 'AdminDB/user_management.html', {'users': users})
+    context = {'users': users}
+    if request.method == 'POST':
+        form = AddUserform(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user_management')
+    return render(request, 'AdminDB/user_management.html', context)
 
 @login_required
 def add_user(request):
     if request.method == 'POST':
         form = AddUserform(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)  # Don't save to DB yet
+            if user.role == 'admin':
+                user.is_staff = True
+            else:
+                user.is_staff = False
+            user.save()
             return redirect('user_management')
     else:
         form = AddUserform()
     return render(request, 'AdminDB/add_user.html', {'form': form})
+
 
 def docreq(request):
     return render(request, 'RegistrarDB/docreq.html')
 
 def studentrecord(request):
     return render(request, 'RegistrarDB/studentrecord.html')
+
+@login_required
+def edit_user(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+
+    if request.method == 'POST':
+        form = AddUserform(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_management')
+    else:
+        form = AddUserform(instance=user)
+
+    return render(request, 'AdminDB/edit_user.html', {'form': form, 'user': user})
+
+
+@login_required
+def delete_user(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+
+    if request.method == 'POST':
+        user.delete()
+        return redirect('user_management')
+
+    return render(request, 'AdminDB/delete_user.html', {'user': user})
+
+

@@ -14,6 +14,7 @@ class CustomUser(AbstractUser):
     
 class AddUser(models.Model):
     username = models.CharField(max_length=150, unique=True)
+    password = models.CharField(max_length=128)
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=20, choices=CustomUser.ROLE_CHOICES)
 
