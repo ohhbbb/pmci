@@ -37,6 +37,8 @@
       padding: 8px 16px;
       border-radius: 5px;
       font-size: 14px;
+      border: none;
+      cursor: pointer;
       transition: background 0.3s ease;
     }
 
@@ -65,6 +67,7 @@
       text-decoration: none;
       padding: 15px 30px;
       transition: background 0.3s;
+      display: block;
     }
 
     .sidebar a:hover {
@@ -80,20 +83,60 @@
       margin-bottom: 20px;
     }
 
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
-    .card {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      text-align: center;
-      font-size: 18px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    table th, table td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+
+    table thead {
+      background-color: #075c28;
+      color: white;
+    }
+
+    table tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    table tbody tr:hover {
+      background-color: #eaf4ea;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .btn-add {
+      background-color: #075c28;
+      color: white;
+      text-decoration: none;
+    }
+
+    .btn-add:hover {
+      background-color: #054e21;
+    }
+
+    .btn-delete {
+      background-color: #c82333;
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background-color: #a71d2a;
     }
   </style>
 </head>
@@ -119,32 +162,42 @@
     <!-- Main Content -->
     <div class="main-content">
         <h1>User Management</h1>
-        <button><a href="{% url 'add_user' %}">Add</a></button>
-        <div>
-            <div>
-                <h2>Users</h2> 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in users %}
-                        <tr>
-                            <td>{{ users.username }}</td>
-                            <td>{{ users.email }}</td>
-                            <td>{{ users.role }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-
-            </div>
-            <P>Accounts {{ users.user }}</P>
-            <p></p>
-        </div>
+        <a href="{% url 'add_user' %}" class="btn btn-add">+ Add User</a>
+        <br><br>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.get_role_display }}</td>
+                    <td>
+                      <form method="get" action="{% url 'edit_user' user.id %}" style="display:inline;">
+                        <button type="submit" class="btn btn-add">Edit</button>
+                    </form>
+        
+                    <!-- Delete button -->
+                    <form method="post" action="{% url 'delete_user' user.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-delete" onclick="return confirm('Delete this user?')">Delete</button>
+                    </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align:center;">No users found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
   </div>
 
