@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Finance Dashboard</title>
+  <link rel="stylesheet" href="../static/css/finance/finance_dashboard.css">
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-left">PMCI Finance Dashboard</div>
+    <div class="topbar-right">
+      <form action="{% url 'logout' %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="logout-link">Logout</button>
+    </div>
+  </div>
+
+  <!-- Sidebar + Main -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="{% url 'finance_dashboard' %}">Dashboard</a>
+      <a href="#">Profit Analysis</a>
+      <a href="{% url 'reports' %}">Reports</a>
+      <a href="#">Transactions</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <h1>Financial Reports</h1>
+    </div>
+  </div>
+</body>
+</html>

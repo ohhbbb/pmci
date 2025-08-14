@@ -26,6 +26,8 @@ def admin_dashboard(request):
 @login_required
 def finance_dashboard(request):
     return render(request, 'FinanceDB/finance_dashboard.html')
+def reports(request):
+    return render(request, 'FinanceDB/reports.html')
 
 @login_required
 def registrar_dashboard(request):
