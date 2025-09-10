@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RoleBasedLoginView, admin_dashboard, finance_dashboard, registrar_dashboard, user_management, docreq, studentrecord, add_user, edit_user, delete_user
+from .views import RoleBasedLoginView, admin_dashboard, finance_dashboard, registrar_dashboard, user_management, studentrecord, add_user, edit_user, delete_user
 
 from django.contrib.auth.views import LogoutView
 
@@ -11,10 +11,9 @@ urlpatterns = [
     path('finance_dashboard/', finance_dashboard, name='finance_dashboard'),
     path('registrar_dashboard/', registrar_dashboard, name='registrar_dashboard'),
     path('user_management/', user_management, name='user_management'),
-    path('docreq/', docreq, name='docreq'),
     path('studentrecord/', studentrecord, name='studentrecord'),
     path('add_user/', add_user, name='add_user'),
     path('edit_user/<int:user_id>/', edit_user, name='edit_user'),
     path('delete_user/<int:user_id>/', delete_user, name='delete_user'),
-
+    
 ]   

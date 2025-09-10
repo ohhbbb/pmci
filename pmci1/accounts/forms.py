@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from .models import CustomUser
+from .models import CustomUser, StudentRecord
 
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(
@@ -48,3 +48,16 @@ class AddUserform(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['role'].empty_label = "Select Role"
+
+class StudentRecordForm(forms.ModelForm):
+    class Meta:
+        model = StudentRecord
+        fields = ['lrn', 'last_name', 'first_name', 'middle_name']
+
+    def clean_lrn(self):
+        lrn = self.cleaned_data['lrn']
+        if not lrn.isdigit():
+            raise forms.ValidationError("LRN must contain numbers only.")
+        if len(lrn) != 12:
+            raise forms.ValidationError("LRN must be exactly 12 digits.")
+        return lrn
